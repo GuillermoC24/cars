@@ -5,12 +5,22 @@ import pandas as pd
 # Título de la aplicación
 st.title("Clasificación de Evaluación de Automóviles")
 
+# Explicación de las etiquetas
+st.sidebar.markdown(
+    """
+    ### Significado de las etiquetas:
+    - **unacc**: Inaceptable
+    - **acc**: Aceptable
+    - **good**: Bueno
+    - **vgood**: Muy bueno
+    """
+)
+
 # Cargar el modelo entrenado (pipeline completo)
 model = joblib.load("best_model.pkl")
 
 # Cargar el LabelEncoder usado durante el entrenamiento
-# Asegúrate de haber guardado el LabelEncoder junto con el modelo
-label_encoder = joblib.load("label_encoder.pkl")  # Si guardaste el LabelEncoder
+label_encoder = joblib.load("label_encoder.pkl")  # Asegúrate de haber guardado el LabelEncoder
 
 # Entradas del usuario
 st.header("Ingrese los detalles del automóvil:")
