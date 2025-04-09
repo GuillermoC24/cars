@@ -8,6 +8,10 @@ st.title("Clasificación de Evaluación de Automóviles")
 # Cargar el modelo entrenado (pipeline completo)
 model = joblib.load("best_model.pkl")
 
+# Cargar el LabelEncoder usado durante el entrenamiento
+# Asegúrate de haber guardado el LabelEncoder junto con el modelo
+label_encoder = joblib.load("label_encoder.pkl")  # Si guardaste el LabelEncoder
+
 # Entradas del usuario
 st.header("Ingrese los detalles del automóvil:")
 buying = st.selectbox("Precio de compra", ["low", "med", "high", "vhigh"])
@@ -33,8 +37,11 @@ if st.button("Predecir"):
         # Realizar la predicción usando el pipeline
         prediction = model.predict(input_data)[0]
         
+        # Decodificar la predicción a la etiqueta original
+        decoded_prediction = label_encoder.inverse_transform([prediction])[0]
+        
         # Mostrar el resultado
         st.subheader("Resultado de la evaluación:")
-        st.write(f"La evaluación del automóvil es: **{prediction}**")
+        st.write(f"La evaluación del automóvil es: **{decoded_prediction}**")
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
